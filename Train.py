@@ -45,9 +45,9 @@ def run_epochs(model: Seq2Seq, iterator: DataLoader, optimizer: torch.optim.Opti
         loss = train(model, iterator, optimizer, criterion, clip)
         total_loss += loss
 
-        if i % PLOT_EVERY:
+        if i % PLOT_EVERY == 0:
             all_losses.append(total_loss/PLOT_EVERY)
-            plot_losses(total_loss, filename="test")
+            plot_losses(all_losses, filename="test")
 
 def train(model: Seq2Seq, iterator: DataLoader, optimizer: torch.optim.Optimizer, criterion: torch.nn.CrossEntropyLoss, clip: int):
     model.train()
@@ -129,4 +129,4 @@ model = Seq2Seq(encoder, decoder, SRC_PAD_IDX, DEVICE).to(DEVICE)
 optimizer = optim.Adam(model.parameters(), lr=LR)
 criterion = nn.CrossEntropyLoss(ignore_index=TRG_PAD_IDX)
 
-train(model, dl, optimizer, criterion, CLIP)
+run_epochs(model, dl, optimizer, criterion, CLIP)
