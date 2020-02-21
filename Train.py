@@ -24,6 +24,7 @@ EMBED_DIM = 5
 HIDD_DIM = 512
 DROPOUT = 0.5
 CLIP = 1
+LR = 0.005
 SRC_PAD_IDX = ENCODER_INPUT['<PAD>']
 TRG_PAD_IDX = DECODER_INPUT['<PAD>']
 
@@ -69,6 +70,7 @@ def train(model: Seq2Seq, iterator: DataLoader, optimizer: torch.optim.Optimizer
         output_dim = output.shape[-1]
 
         output = output[1:].view(-1, output_dim)
+        trg = trg[1:].view(-1)
 
         # trg = [(trg len - 1) * batch size]
         # output = [(trg len - 1) * batch size, output dim]
@@ -124,7 +126,7 @@ decoder = Decoder(OUTPUT_DIM, EMBED_DIM, HIDD_DIM, HIDD_DIM, DROPOUT, attention)
 
 model = Seq2Seq(encoder, decoder, SRC_PAD_IDX, DEVICE).to(DEVICE)
 
-optimizer = optim.Adam(model.parameters())
+optimizer = optim.Adam(model.parameters(), lr=LR)
 criterion = nn.CrossEntropyLoss(ignore_index=TRG_PAD_IDX)
 
 train(model, dl, optimizer, criterion, CLIP)
