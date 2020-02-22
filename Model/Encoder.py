@@ -47,8 +47,8 @@ class Encoder(nn.Module):
 
         # initial decoder hidden is final hidden state of the forwards and backwards
         # encoder RNNs fed through a linear layer
-        hidden_state = torch.tanh(self.fc(hidden[0][-1,:,:]))
-        cell = torch.tanh(self.fc(hidden[1][-1,:,:]))
+        hidden_state = torch.tanh(self.fc(hidden[0][-1, :, :]))
+        cell = torch.tanh(self.fc(hidden[1][-1, :, :]))
 
         # outputs = [src len, batch size, enc hid dim]
         # hidden = [batch size, dec hid dim]

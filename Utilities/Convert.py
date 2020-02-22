@@ -1,10 +1,13 @@
-from .Constants import * 
 import torch
+
+from .Constants import *
+
 
 def tokenize_name(name: str, vocab):
     return [vocab[char] for char in name]
 
-def strings_to_index_tensor(strings: list, max_string_len: int, vocab:dict, pad: str) -> list:
+
+def strings_to_index_tensor(strings: list, max_string_len: int, vocab: dict, pad: str) -> list:
     """
     Turn a list of strings into a tensor of shape: <max_string_len x batch_size (length of strings)>.
     index_function should be a function that converts a character into an appropriate index.
